@@ -97,11 +97,28 @@ public class ProceduralTerrain : MonoBehaviour
         }
     }
 
+    Vector2[] GenerateUVs()
+    {
+        Vector2[] uvs = new Vector2[vertices.Length];
+        for (int z = 0; z < height; z++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float u = (float)x / (width - 1);
+                float v = (float)z / (height - 1);
+                uvs[z * width + x] = new Vector2(u, v);
+            }
+        }
+        return uvs;
+    }
+
+
     void UpdateMesh()
     {
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.uv = GenerateUVs();
         mesh.RecalculateNormals();
 
         meshCollider.sharedMesh = null;
