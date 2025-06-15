@@ -204,6 +204,7 @@ MonoBehaviour:
     m_Bits: 8
   lastMoveDirection: {x: 0, y: 0, z: 0}
   currentSpeed: 0
+  canMove: 1
 --- !u!114 &2641763684699089213
 MonoBehaviour:
   m_ObjectHideFlags: 0
