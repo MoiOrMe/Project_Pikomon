@@ -19,10 +19,10 @@ public class SimplePlayerController : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
 
-    [HideInInspector]
-    public Vector3 lastMoveDirection;
+    [HideInInspector] public Vector3 lastMoveDirection;
     public float currentSpeed;
 
+    public bool canMove = true;
 
     void Start()
     {
@@ -36,18 +36,20 @@ public class SimplePlayerController : MonoBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
-        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        Vector3 camForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 camRight = cameraTransform.right;
+        if (canMove)
+        {
+            Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 camForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
+            Vector3 camRight = cameraTransform.right;
 
-        Vector3 move = (camForward * input.z + camRight * input.x).normalized;
-        lastMoveDirection = move;
+            Vector3 move = (camForward * input.z + camRight * input.x).normalized;
+            lastMoveDirection = move;
 
-
-        float appliedSpeed = Input.GetKey("left shift") ? speedRunning : speed;
-        float targetSpeed = move.magnitude * appliedSpeed;
-        currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
-        characterController.Move(move * appliedSpeed * Time.deltaTime);
+            float appliedSpeed = Input.GetKey("left shift") ? speedRunning : speed;
+            float targetSpeed = move.magnitude * appliedSpeed;
+            currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
+            characterController.Move(move * appliedSpeed * Time.deltaTime);
+        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -55,4 +57,10 @@ public class SimplePlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
     }
+
+    public void EnableMovement()
+    {
+        canMove = true;
+    }
+
 }
