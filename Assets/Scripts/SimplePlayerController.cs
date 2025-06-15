@@ -5,6 +5,7 @@ public class SimplePlayerController : MonoBehaviour
     private CharacterController characterController;
 
     public float speed = 5f;
+    public float speedRunning = 8f;
     public float jumpHeight = 2f;
     public float gravity = -9.81f;
 
@@ -14,6 +15,9 @@ public class SimplePlayerController : MonoBehaviour
 
     private Vector3 velocity;
     private bool isGrounded;
+
+    [HideInInspector]
+    public Vector3 lastMoveDirection;
 
     void Start()
     {
@@ -33,7 +37,13 @@ public class SimplePlayerController : MonoBehaviour
         Vector3 camRight = cameraTransform.right;
 
         Vector3 move = (camForward * input.z + camRight * input.x).normalized;
-        characterController.Move(move * speed * Time.deltaTime);
+        lastMoveDirection = move;
+
+
+        if (!Input.GetKey("left shift"))
+            characterController.Move(move * speed * Time.deltaTime);
+        else
+            characterController.Move(move * speedRunning * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
