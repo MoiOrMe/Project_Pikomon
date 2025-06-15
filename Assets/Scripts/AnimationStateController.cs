@@ -3,18 +3,13 @@ using UnityEngine;
 public class AnimationStateController : MonoBehaviour
 {
     private Animator animator;
-    private int isWalkingHash;
-    private int isRunningHash;
-
     public float rotationSpeed = 10f;
 
     private SimplePlayerController playerController;
 
-
     void Start()
     {
         animator = GetComponent<Animator>();
-
         if (animator == null)
         {
             Debug.LogError("Aucun Animator trouvé sur le GameObject !");
@@ -24,12 +19,9 @@ public class AnimationStateController : MonoBehaviour
         playerController = GetComponent<SimplePlayerController>();
         if (playerController == null)
         {
-            Debug.LogError("Aucun SimplePlayerController trouvé sur le GameObject !");
+            Debug.LogError("Aucun SimplePlayerController trouvé !");
             return;
         }
-
-        isWalkingHash = Animator.StringToHash("isWalking");
-        isRunningHash = Animator.StringToHash("isRunning");
     }
 
     void Update()
@@ -38,11 +30,9 @@ public class AnimationStateController : MonoBehaviour
 
         Vector3 moveDir = playerController.lastMoveDirection;
 
-        bool isWalking = moveDir.magnitude > 0f;
-        bool isRunning = isWalking && Input.GetKey(KeyCode.LeftShift);
+        float speed = playerController.currentSpeed;
 
-        animator.SetBool(isWalkingHash, isWalking);
-        animator.SetBool(isRunningHash, isRunning);
+        animator.SetFloat("Speed", speed);
 
         if (moveDir != Vector3.zero)
         {
