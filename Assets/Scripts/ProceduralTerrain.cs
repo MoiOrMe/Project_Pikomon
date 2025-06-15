@@ -1,8 +1,9 @@
-using UnityEngine;
+using Unity.AI.Navigation;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using UnityEngine;
 
 [BurstCompile]
 struct DeformJob : IJobParallelFor
@@ -38,9 +39,12 @@ public class ProceduralTerrain : MonoBehaviour
     private int[] triangles;
     private Mesh mesh;
     private MeshCollider meshCollider;
+    public NavMeshSurface navMeshSurface;
 
     void Start()
     {
+        gameObject.layer = LayerMask.NameToLayer("Ground");
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         meshCollider = GetComponent<MeshCollider>();
@@ -112,7 +116,6 @@ public class ProceduralTerrain : MonoBehaviour
         return uvs;
     }
 
-
     void UpdateMesh()
     {
         mesh.Clear();
@@ -123,7 +126,15 @@ public class ProceduralTerrain : MonoBehaviour
 
         meshCollider.sharedMesh = null;
         meshCollider.sharedMesh = mesh;
+
+        if (navMeshSurface != null)
+        {
+            navMeshSurface.RemoveData();
+            navMeshSurface.BuildNavMesh();
+        }
     }
+
+
 
     public float radius = 3f;
     public float deformationStrength = 1f;
