@@ -143,6 +143,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 315fa8d23e59f7240b3868bf2cb0ae64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2641763684699089213}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 315fa8d23e59f7240b3868bf2cb0ae64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2918732920792914608}
   m_SourcePrefab: {fileID: 100100000, guid: 315fa8d23e59f7240b3868bf2cb0ae64, type: 3}
 --- !u!1 &2749940324121686264 stripped
 GameObject:
@@ -168,12 +171,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &457479638865127574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,12 +190,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  speedRunning: 8
   jumpHeight: 2
   gravity: -9.81
+  speedSmoothTime: 0.1
   cameraTransform: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  lastMoveDirection: {x: 0, y: 0, z: 0}
+  currentSpeed: 0
 --- !u!114 &2641763684699089213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +213,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frostBreathContainer: {fileID: 7827377292533966952}
+--- !u!114 &2918732920792914608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749940324121686264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc94fc410fe6c6b479e877436435f25f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!4 &3270194469524990530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 315fa8d23e59f7240b3868bf2cb0ae64, type: 3}
